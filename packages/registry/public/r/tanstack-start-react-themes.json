@@ -8,7 +8,7 @@
     "zod"
   ],
   "registryDependencies": [
-    "https://mksingh.dev/r/hooks/use-media-query-hook.json"
+    "https://mksingh.dev/r/use-media-query-hook.json"
   ],
   "files": [
     {
