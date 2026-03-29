@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "jsonforms-enum-control",
+  "description": "JSONForms select/dropdown renderer for enum type fields.",
+  "dependencies": [
+    "@jsonforms/core",
+    "@jsonforms/react"
+  ],
+  "registryDependencies": [
+    "select"
+  ],
+  "files": [
+    {
+      "path": "registry/forms/renderers/enum-control.tsx",
+      "content": "import { ControlProps, isEnumControl, rankWith } from '@jsonforms/core';\nimport { withJsonFormsControlProps } from '@jsonforms/react';\n\nimport {\n    Select,\n    SelectContent,\n    SelectItem,\n    SelectTrigger,\n    SelectValue,\n} from '~/components/ui/select';\n\nconst EnumControlRenderer = (props: ControlProps) => {\n    const { label, data, handleChange, path, visible, enabled, schema } = props;\n    const options = (schema.enum ?? []) as string[];\n\n    if (!visible) return null;\n\n    return (\n        <div className=\"flex flex-col gap-1 py-2\">\n            {label && <label className=\"text-xs font-medium text-foreground\">{label}</label>}\n            <Select\n                value={data ?? ''}\n                onValueChange={value => handleChange(path, value)}\n                disabled={!enabled}\n            >\n                <SelectTrigger>\n                    <SelectValue placeholder={`Select ${label ?? 'option'}`} />\n                </SelectTrigger>\n                <SelectContent>\n                    {options.map(option => (\n                        <SelectItem key={option} value={option}>\n                            {option}\n                        </SelectItem>\n                    ))}\n                </SelectContent>\n            </Select>\n        </div>\n    );\n};\n\nexport const enumControlTester = rankWith(11, isEnumControl);\nexport default withJsonFormsControlProps(EnumControlRenderer);",
+      "type": "registry:component"
+    }
+  ],
+  "type": "registry:component"
+}

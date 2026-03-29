@@ -1,0 +1,36 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tanstack-start-react-themes",
+  "description": "A comprehensive theme management library for TanStack React Start applications with server-side rendering support, automatic system preference detection, and seamless user preference persistence.",
+  "dependencies": [
+    "@tanstack/react-start",
+    "@tanstack/react-router",
+    "zod"
+  ],
+  "registryDependencies": [
+    "https://mksingh.dev/r/hooks/use-media-query-hook.json"
+  ],
+  "files": [
+    {
+      "path": "registry/lib/theme/action.ts",
+      "content": "import { createServerFn } from \"@tanstack/react-start\";\nimport { getCookie, setCookie } from \"@tanstack/react-start/server\";\nimport { schema, ThemedefinedByMap, type ThemeIdentifier } from \"./schema\";\n\nexport const storageKey = \"ui-theme\";\n\nexport const getThemeServerFn = createServerFn().handler(async () => {\n    const themeCookie = getCookie(storageKey);\n\n    if (!themeCookie) {\n        return null;\n    }\n\n    // Type guard to ensure themeCookie is a valid ThemeIdentifier\n    if (!(themeCookie in ThemedefinedByMap)) {\n        throw new Error(\"Invalid theme exists\");\n    }\n\n    const { success, data } = schema.safeParse(ThemedefinedByMap[themeCookie as ThemeIdentifier]);\n    if (!success) {\n        throw new Error(\"Invalid theme exists\");\n    }\n\n    return data;\n});\n\nexport const setThemeServerFn = createServerFn({ method: \"POST\" })\n    .validator((data: { identifier: keyof typeof ThemedefinedByMap }) => {\n        const { success } = schema.safeParse(ThemedefinedByMap[data.identifier]);\n        if (!success) {\n            throw new Error(\"Invalid theme provided\");\n        }\n        return data.identifier;\n    })\n    .handler(async ({ data }) => {\n        setCookie(storageKey, data, {\n            maxAge: 60 * 60 * 24 * 30 * 12, // 12 months\n            httpOnly: true,\n            secure: process.env.NODE_ENV === \"production\",\n        });\n    });",
+      "type": "registry:lib"
+    },
+    {
+      "path": "registry/lib/theme/schema.ts",
+      "content": "import { z } from \"zod\";\n\nexport const ThemedefinedByMap = Object.freeze({\n    ud: { definedBy: 'user', theme: 'dark' },\n    sd: { definedBy: 'system', theme: 'dark' },\n    ul: { definedBy: 'user', theme: 'light' },\n    sl: { definedBy: 'system', theme: 'light' },\n});\n\nexport type ThemeIdentifier = keyof typeof ThemedefinedByMap;\n\n// NOTE: Default to sd\nexport const schema = z.object({\n    theme: z.enum([\"dark\", \"light\"]).optional().default('dark'),\n    definedBy: z.enum(['user', 'system']).optional().default('system'),\n});\n\nexport type ThemeType = z.infer<typeof schema>;",
+      "type": "registry:lib"
+    },
+    {
+      "path": "registry/lib/theme/provider.tsx",
+      "content": "\"use client\";\n\nimport { createContext, useContext, useEffect } from \"react\";\nimport { setThemeServerFn } from \"./action\";\nimport { ThemeType, ThemeIdentifier } from \"./schema\";\nimport { useMediaQuery } from \"../../hooks/useMediaQuery\";\nimport { useRouter } from \"@tanstack/react-router\";\n\nconst COLOR_SCHEME_QUERY = '(prefers-color-scheme: dark)';\n\ntype SetThemeArg = ThemeType['theme'] | Extract<ThemeType['definedBy'], 'system'>\n\ntype ThemeProviderProps = {\n    children: React.ReactNode\n    value: ThemeType | null\n    defaultValue?: ThemeType\n}\n\ntype ThemeProviderState = {\n    theme: ThemeType['theme']\n    definedBy: ThemeType['definedBy']\n    setTheme: (themeIdentifier: SetThemeArg) => void\n}\n\nconst initialState: ThemeProviderState = {\n    theme: 'dark',\n    definedBy: 'system',\n    setTheme: () => null,\n}\n\nconst ThemeProviderContext = createContext<ThemeProviderState>(initialState)\n\nexport function ThemeProvider({\n    children,\n    value,\n    defaultValue = { definedBy: 'system', theme: 'dark' },\n    ...props\n}: ThemeProviderProps) {\n    const router = useRouter();\n    const matches = useMediaQuery(COLOR_SCHEME_QUERY);\n    const matchedMode = matches ? 'dark' : 'light'\n\n    const themeCookieSetter = async (identifier: ThemeIdentifier) => {\n        await setThemeServerFn({ data: { identifier } })\n        router.invalidate()\n    }\n\n    useEffect(() => {\n        const root = window.document.documentElement\n        root.classList.remove(\"light\", \"dark\")\n\n        if (!value) {\n            root.classList.add(matchedMode)\n            themeCookieSetter(`s${matchedMode[0]}` as ThemeIdentifier)\n            return\n        }\n\n        if (value?.definedBy === 'system' && matchedMode !== value.theme) {\n            root.classList.add(matchedMode)\n\n            const identifier = `s${matchedMode[0]}` as ThemeIdentifier\n            themeCookieSetter(identifier)\n            return\n        }\n\n        root.classList.add(value.theme)\n    }, [value, matches])\n\n    const _value = {\n        theme: value?.theme || defaultValue.theme,\n        definedBy: value?.definedBy || defaultValue.definedBy,\n        setTheme: (args: SetThemeArg) => {\n            let identifier: ThemeIdentifier\n            if (args === 'system') {\n                const systemTheme = matches ? 'dark' : 'light'\n                identifier = `${args[0]}${systemTheme[0]}` as ThemeIdentifier\n            } else {\n                identifier = `u${args[0]}` as ThemeIdentifier\n            }\n            themeCookieSetter(identifier)\n        },\n    }\n\n    return (\n        <ThemeProviderContext.Provider {...props} value={_value}>\n            {children}\n        </ThemeProviderContext.Provider>\n    )\n}\n\nexport const useTheme = () => {\n    const context = useContext(ThemeProviderContext)\n\n    if (context === undefined)\n        throw new Error(\"useTheme must be used within a ThemeProvider\")\n\n    return context\n}",
+      "type": "registry:lib"
+    },
+    {
+      "path": "registry/lib/theme/index.ts",
+      "content": "export * from './action'\nexport * from './schema'\nexport * from './provider'\nexport * from '../../hooks/useMediaQuery'\nexport * from '../../hooks/useIsomorphicLayoutEffect'",
+      "type": "registry:lib"
+    }
+  ],
+  "type": "registry:lib"
+}

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "jsonforms-label",
+  "description": "JSONForms static label/heading renderer for UISchema Label elements.",
+  "dependencies": [
+    "@jsonforms/core",
+    "@jsonforms/react"
+  ],
+  "files": [
+    {
+      "path": "registry/forms/renderers/label.tsx",
+      "content": "import { LabelElement, rankWith, uiTypeIs } from '@jsonforms/core';\nimport { withJsonFormsRendererProps } from '@jsonforms/react';\n\ninterface LabelRendererProps {\n    uischema: LabelElement;\n    visible: boolean;\n}\n\nconst LabelRenderer = ({ uischema, visible }: LabelRendererProps) => {\n    if (!visible) return null;\n\n    return (\n        <p className=\"text-xs font-medium text-muted-foreground\">{uischema.text}</p>\n    );\n};\n\nexport const labelTester = rankWith(10, uiTypeIs('Label'));\nexport default withJsonFormsRendererProps(LabelRenderer as any);",
+      "type": "registry:component"
+    }
+  ],
+  "type": "registry:component"
+}
