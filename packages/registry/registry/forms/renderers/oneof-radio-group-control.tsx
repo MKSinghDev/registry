@@ -6,7 +6,7 @@ import { withJsonFormsOneOfEnumProps } from '@jsonforms/react';
 import Typography from '~/components/ui/typography';
 import { Label } from '~/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '~/components/ui/radio-group';
-import { shouldShowError, ValidationMode } from '~/components/forms/utils';
+import { shouldShowError, ShouldValidate } from '~/components/forms/utils';
 
 interface OneOfRadioGroupProps {
     label?: string;
@@ -17,7 +17,7 @@ interface OneOfRadioGroupProps {
     enabled: boolean;
     options?: { value: any; label: string }[];
     errors?: string;
-    config?: { validationMode?: ValidationMode };
+    config?: { shouldValidate?: ShouldValidate };
 }
 
 const OneOfRadioGroupControlRenderer = (props: OneOfRadioGroupProps) => {

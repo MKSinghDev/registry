@@ -18,30 +18,29 @@ export const translateError = (error: {
 };
 
 /**
- * Validation mode for form fields.
- * - `onChange` — show errors immediately as the user types / interacts
- * - `onBlur`   — show errors after the field loses focus
- * - `onSubmit` — show all errors (set this on form submission)
+ * Controls when a field first shows its error message.
  *
- * Usage:
- *   config={{ validationMode: 'onBlur' }}
- *   config={{ validationMode: submitted ? 'onSubmit' : 'onBlur' }}
+ * - `'onBlur'`   — show after the field loses focus for the first time
+ * - `'onSubmit'` — show all errors when the form is submitted
+ *
+ * Re-validation (updating a visible error as the user types) is handled
+ * automatically by JSONForms — no extra config needed.
+ *
+ * Mirrors Conform's `shouldValidate` API.
  */
-export type ValidationMode = 'onChange' | 'onBlur' | 'onSubmit';
+export type ShouldValidate = 'onBlur' | 'onSubmit';
 
 /**
  * Determines whether a field's error should be visible.
  *
- * @param config  - JSONForms config object; reads `validationMode`
- * @param touched - whether the field has been blurred at least once (used by `onBlur` mode)
+ * @param config  - JSONForms config object; reads `shouldValidate`
+ * @param touched - whether the field has been blurred at least once (used by `onBlur`)
  */
 export const shouldShowError = (
-    config: { validationMode?: ValidationMode } | undefined,
+    config: { shouldValidate?: ShouldValidate } | undefined,
     touched: boolean
 ): boolean => {
-    const mode = config?.validationMode;
-    if (mode === 'onChange') return true;
-    if (mode === 'onBlur') return touched;
-    if (mode === 'onSubmit') return true;
+    if (config?.shouldValidate === 'onBlur') return touched;
+    if (config?.shouldValidate === 'onSubmit') return true;
     return false;
 };

@@ -12,7 +12,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '~/components/ui/select';
-import { shouldShowError, ValidationMode } from '~/components/forms/utils';
+import { shouldShowError, ShouldValidate } from '~/components/forms/utils';
 
 interface OneOfEnumProps {
     label?: string;
@@ -23,7 +23,7 @@ interface OneOfEnumProps {
     enabled: boolean;
     options?: { value: any; label: string }[];
     errors?: string;
-    config?: { validationMode?: ValidationMode };
+    config?: { shouldValidate?: ShouldValidate };
 }
 
 const OneOfEnumControlRenderer = (props: OneOfEnumProps) => {
