@@ -1,6 +1,8 @@
 import { isOneOfEnumControl, rankWith } from '@jsonforms/core';
 import { withJsonFormsOneOfEnumProps } from '@jsonforms/react';
 
+import Typography from '~/components/ui/typography';
+import { Label } from '~/components/ui/label';
 import {
     Select,
     SelectContent,
@@ -17,16 +19,18 @@ interface OneOfEnumProps {
     visible: boolean;
     enabled: boolean;
     options?: { value: any; label: string }[];
+    errors?: string;
+    config?: { showErrors?: boolean };
 }
 
 const OneOfEnumControlRenderer = (props: OneOfEnumProps) => {
-    const { label, data, handleChange, path, visible, enabled, options = [] } = props;
+    const { label, data, handleChange, path, visible, enabled, options = [], errors, config } = props;
 
     if (!visible) return null;
 
     return (
         <div className="flex flex-col gap-1 py-2">
-            {label && <label className="text-xs font-medium text-foreground">{label}</label>}
+            {label && <Label className="text-xs font-medium text-foreground">{label}</Label>}
             <Select
                 value={data !== undefined ? String(data) : ''}
                 onValueChange={value => handleChange(path, value)}
@@ -43,6 +47,7 @@ const OneOfEnumControlRenderer = (props: OneOfEnumProps) => {
                     ))}
                 </SelectContent>
             </Select>
+            {config?.showErrors && <Typography variant="error">{errors}</Typography>}
         </div>
     );
 };

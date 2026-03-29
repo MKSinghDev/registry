@@ -1,7 +1,9 @@
 import { ControlProps, JsonSchema, rankWith, UISchemaElement } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
 
+import Typography from '~/components/ui/typography';
 import { Input } from '~/components/ui/input';
+import { Label } from '~/components/ui/label';
 
 const hasEnumAndText = (schema: JsonSchema): boolean => {
     if (!schema.anyOf) return false;
@@ -11,7 +13,7 @@ const hasEnumAndText = (schema: JsonSchema): boolean => {
 };
 
 const AnyOfStringOrEnumControlRenderer = (props: ControlProps) => {
-    const { label, data, handleChange, path, visible, enabled, schema, id } = props;
+    const { label, data, handleChange, path, visible, enabled, schema, id, errors, config } = props;
 
     if (!visible) return null;
 
@@ -23,7 +25,7 @@ const AnyOfStringOrEnumControlRenderer = (props: ControlProps) => {
 
     return (
         <div className="flex flex-col gap-1 py-2">
-            {label && <label className="text-xs font-medium text-foreground">{label}</label>}
+            {label && <Label className="text-xs font-medium text-foreground">{label}</Label>}
             <Input
                 list={listId}
                 value={data ?? ''}
@@ -35,6 +37,7 @@ const AnyOfStringOrEnumControlRenderer = (props: ControlProps) => {
                     <option key={opt} value={opt} />
                 ))}
             </datalist>
+            {config.showErrors && <Typography variant="error">{errors}</Typography>}
         </div>
     );
 };

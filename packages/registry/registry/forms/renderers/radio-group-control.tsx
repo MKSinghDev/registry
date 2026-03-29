@@ -1,18 +1,19 @@
 import { and, ControlProps, isEnumControl, optionIs, rankWith } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
 
+import Typography from '~/components/ui/typography';
 import { Label } from '~/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '~/components/ui/radio-group';
 
 const RadioGroupControlRenderer = (props: ControlProps) => {
-    const { label, data, handleChange, path, visible, enabled, schema } = props;
+    const { label, data, handleChange, path, visible, enabled, schema, errors, config } = props;
     const options = (schema.enum ?? []) as string[];
 
     if (!visible) return null;
 
     return (
         <div className="flex flex-col gap-2 py-2">
-            {label && <label className="text-xs font-medium text-foreground">{label}</label>}
+            {label && <Label className="text-xs font-medium text-foreground">{label}</Label>}
             <RadioGroup
                 value={data ?? ''}
                 onValueChange={value => handleChange(path, value)}
@@ -27,6 +28,7 @@ const RadioGroupControlRenderer = (props: ControlProps) => {
                     </div>
                 ))}
             </RadioGroup>
+            {config.showErrors && <Typography variant="error">{errors}</Typography>}
         </div>
     );
 };
