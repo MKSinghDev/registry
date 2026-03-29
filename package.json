@@ -1,0 +1,12 @@
+{
+  "name": "@mksingh/registry",
+  "version": "0.0.1",
+  "private": false,
+  "scripts": {
+    "build": "shadcn build",
+    "dev": "shadcn build --watch"
+  },
+  "devDependencies": {
+    "shadcn": "latest"
+  }
+}
