@@ -19,7 +19,6 @@ type TypographyVariant =
     | 'tiny'
     | 'error';
 
-// Mapping of variants to their default HTML elements
 const variantElementMap: Record<TypographyVariant, keyof JSX.IntrinsicElements> = {
     hero: 'h1',
     h1: 'h1',
@@ -37,7 +36,6 @@ const variantElementMap: Record<TypographyVariant, keyof JSX.IntrinsicElements> 
     error: 'span',
 };
 
-// Define typography variants using cva
 const typographyVariants = cva('', {
     variants: {
         variant: {
@@ -62,15 +60,11 @@ const typographyVariants = cva('', {
     },
 });
 
-// Extract variant props from the cva function
 type TypographyProps = React.HTMLAttributes<HTMLElement> &
-    VariantProps<typeof typographyVariants> & {
-        as?: keyof JSX.IntrinsicElements;
-    };
+    VariantProps<typeof typographyVariants>;
 
-const Typography = ({ variant = 'p', as, children, className, ...props }: TypographyProps) => {
-    // Determine which element to render
-    const Element = as || variantElementMap[variant as TypographyVariant];
+const Typography = ({ variant = 'p', children, className, ...props }: TypographyProps) => {
+    const Element = variantElementMap[variant as TypographyVariant];
 
     return React.createElement(
         Element,
