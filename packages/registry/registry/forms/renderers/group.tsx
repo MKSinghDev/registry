@@ -15,7 +15,7 @@ const GroupRenderer = (props: LayoutProps) => {
     if (!visible) return null;
 
     return (
-        <Accordion type="single" collapsible defaultValue="group">
+        <Accordion defaultValue={['group']}>
             <AccordionItem value="group">
                 <AccordionTrigger>{group.label}</AccordionTrigger>
                 <AccordionContent>

@@ -63,7 +63,7 @@ const ArrayLayoutRenderer = (props: ArrayLayoutProps) => {
             </div>
 
             {data > 0 && (
-                <Accordion type="multiple">
+                <Accordion multiple>
                     {Array.from({ length: data }).map((_, index) => (
                         <AccordionItem key={index} value={String(index)}>
                             <AccordionTrigger>
