@@ -1,0 +1,14 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "jsonforms-utils",
+  "description": "Utility functions for JSONForms — includes translateError for rendering custom error messages from JSON Schema errorMessage annotations.",
+  "files": [
+    {
+      "path": "registry/forms/utils.ts",
+      "content": "/**\n * Translates a JSONForms AJV error to a human-readable message.\n * Reads `errorMessage` from the field's JSON Schema — supports both\n * per-keyword objects and a single string fallback.\n *\n * Usage: pass to `<JsonForms i18n={{ translateError }} />`\n */\nexport const translateError = (error: {\n    keyword: string;\n    parentSchema?: Record<string, unknown>;\n}): string => {\n    const customMessages = error.parentSchema?.errorMessage;\n    if (customMessages && typeof customMessages === 'object') {\n        return (customMessages as Record<string, string>)[error.keyword] ?? '';\n    }\n    if (typeof customMessages === 'string') return customMessages;\n    return '';\n};\n",
+      "type": "registry:lib",
+      "target": "components/forms/utils.ts"
+    }
+  ],
+  "type": "registry:lib"
+}

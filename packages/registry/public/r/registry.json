@@ -669,13 +669,26 @@
         "https://mksingh.dev/r/jsonforms-time-cell.json",
         "https://mksingh.dev/r/jsonforms-enum-cell.json",
         "https://mksingh.dev/r/jsonforms-oneof-enum-cell.json",
-        "https://mksingh.dev/r/jsonforms-number-format-cell.json"
+        "https://mksingh.dev/r/jsonforms-number-format-cell.json",
+        "https://mksingh.dev/r/jsonforms-utils.json"
       ],
       "files": [
         {
           "path": "registry/forms/renderers/index.ts",
           "type": "registry:component",
           "target": "components/forms/renderers/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "jsonforms-utils",
+      "type": "registry:lib",
+      "description": "Utility functions for JSONForms — includes translateError for rendering custom error messages from JSON Schema errorMessage annotations.",
+      "files": [
+        {
+          "path": "registry/forms/utils.ts",
+          "type": "registry:lib",
+          "target": "components/forms/utils.ts"
         }
       ]
     },

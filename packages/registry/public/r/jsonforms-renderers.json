@@ -36,7 +36,8 @@
     "https://mksingh.dev/r/jsonforms-time-cell.json",
     "https://mksingh.dev/r/jsonforms-enum-cell.json",
     "https://mksingh.dev/r/jsonforms-oneof-enum-cell.json",
-    "https://mksingh.dev/r/jsonforms-number-format-cell.json"
+    "https://mksingh.dev/r/jsonforms-number-format-cell.json",
+    "https://mksingh.dev/r/jsonforms-utils.json"
   ],
   "files": [
     {
