@@ -4,6 +4,21 @@
     "homepage": "https://registry.mksingh.dev",
     "items": [
         {
+            "name": "typography",
+            "type": "registry:component",
+            "description": "A polymorphic Typography component with 14 variants (hero, h1–h4, p, lead, large, small, muted, tiny, blockquote, code, error) built with cva. Renders the semantically correct HTML element by default with full support for the `as` prop.",
+            "dependencies": [
+                "class-variance-authority"
+            ],
+            "files": [
+                {
+                    "path": "registry/components/typography.tsx",
+                    "type": "registry:component",
+                    "target": "components/ui/typography.tsx"
+                }
+            ]
+        },
+        {
             "name": "use-isomorphic-layout-effect",
             "type": "registry:hook",
             "description": "A React hook that provides cross-platform compatibility for useLayoutEffect, automatically falling back to useEffect on the server-side to prevent hydration mismatches while maintaining synchronous DOM updates on the client.",
