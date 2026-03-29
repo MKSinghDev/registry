@@ -13,7 +13,8 @@
     {
       "path": "registry/forms/renderers/textarea-control.tsx",
       "content": "import { and, ControlProps, isStringControl, optionIs, rankWith } from '@jsonforms/core';\nimport { withJsonFormsControlProps } from '@jsonforms/react';\n\nimport { Textarea } from '~/components/ui/textarea';\n\nconst TextareaControlRenderer = (props: ControlProps) => {\n    const { label, data, handleChange, path, visible, enabled } = props;\n\n    if (!visible) return null;\n\n    return (\n        <div className=\"flex flex-col gap-1 py-2\">\n            {label && <label className=\"text-xs font-medium text-foreground\">{label}</label>}\n            <Textarea\n                value={data ?? ''}\n                onChange={e => handleChange(path, e.target.value)}\n                disabled={!enabled}\n                rows={4}\n            />\n        </div>\n    );\n};\n\nexport const textareaControlTester = rankWith(12, and(isStringControl, optionIs('multi', true)));\nexport default withJsonFormsControlProps(TextareaControlRenderer);",
-      "type": "registry:component"
+      "type": "registry:component",
+      "target": "components/forms/renderers/textarea-control.tsx"
     }
   ],
   "type": "registry:component"

@@ -13,7 +13,8 @@
     {
       "path": "registry/forms/renderers/cells/number-format-cell.tsx",
       "content": "'use client';\n\nimport { CellProps, isNumberControl, rankWith } from '@jsonforms/core';\nimport { withJsonFormsCellProps } from '@jsonforms/react';\nimport { useState } from 'react';\n\nimport { Input } from '~/components/ui/input';\n\nconst NumberFormatCell = ({ data, handleChange, path, enabled }: CellProps) => {\n    const [focused, setFocused] = useState(false);\n\n    const formatted =\n        !focused && data !== undefined && data !== null && !isNaN(data)\n            ? new Intl.NumberFormat().format(data)\n            : (data ?? '');\n\n    return (\n        <Input\n            type={focused ? 'number' : 'text'}\n            value={focused ? (data ?? '') : formatted}\n            onChange={e => handleChange(path, e.target.valueAsNumber)}\n            onFocus={() => setFocused(true)}\n            onBlur={() => setFocused(false)}\n            disabled={!enabled}\n            className=\"h-8 text-xs\"\n        />\n    );\n};\n\nexport const numberFormatCellTester = rankWith(4, isNumberControl);\nexport default withJsonFormsCellProps(NumberFormatCell);",
-      "type": "registry:component"
+      "type": "registry:component",
+      "target": "components/forms/renderers/cells/number-format-cell.tsx"
     }
   ],
   "type": "registry:component"

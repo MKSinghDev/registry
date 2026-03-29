@@ -13,7 +13,8 @@
     {
       "path": "registry/forms/renderers/time-control.tsx",
       "content": "import { ControlProps, isTimeControl, rankWith } from '@jsonforms/core';\nimport { withJsonFormsControlProps } from '@jsonforms/react';\n\nimport { Input } from '~/components/ui/input';\n\nconst TimeControlRenderer = (props: ControlProps) => {\n    const { label, data, handleChange, path, visible, enabled } = props;\n\n    if (!visible) return null;\n\n    return (\n        <div className=\"flex flex-col gap-1 py-2\">\n            {label && <label className=\"text-xs font-medium text-foreground\">{label}</label>}\n            <Input\n                type=\"time\"\n                value={data ?? ''}\n                onChange={e => handleChange(path, e.target.value)}\n                disabled={!enabled}\n            />\n        </div>\n    );\n};\n\nexport const timeControlTester = rankWith(11, isTimeControl);\nexport default withJsonFormsControlProps(TimeControlRenderer);",
-      "type": "registry:component"
+      "type": "registry:component",
+      "target": "components/forms/renderers/time-control.tsx"
     }
   ],
   "type": "registry:component"

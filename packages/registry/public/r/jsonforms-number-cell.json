@@ -13,7 +13,8 @@
     {
       "path": "registry/forms/renderers/cells/number-cell.tsx",
       "content": "import { CellProps, isNumberControl, rankWith } from '@jsonforms/core';\nimport { withJsonFormsCellProps } from '@jsonforms/react';\n\nimport { Input } from '~/components/ui/input';\n\nconst NumberCell = ({ data, handleChange, path, enabled }: CellProps) => (\n    <Input\n        type=\"number\"\n        value={data ?? ''}\n        onChange={e => handleChange(path, e.target.valueAsNumber)}\n        disabled={!enabled}\n        className=\"h-8 text-xs\"\n    />\n);\n\nexport const numberCellTester = rankWith(1, isNumberControl);\nexport default withJsonFormsCellProps(NumberCell);",
-      "type": "registry:component"
+      "type": "registry:component",
+      "target": "components/forms/renderers/cells/number-cell.tsx"
     }
   ],
   "type": "registry:component"

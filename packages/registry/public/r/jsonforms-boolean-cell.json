@@ -13,7 +13,8 @@
     {
       "path": "registry/forms/renderers/cells/boolean-cell.tsx",
       "content": "import { CellProps, isBooleanControl, rankWith } from '@jsonforms/core';\nimport { withJsonFormsCellProps } from '@jsonforms/react';\n\nimport { Checkbox } from '~/components/ui/checkbox';\n\nconst BooleanCell = ({ data, handleChange, path, enabled }: CellProps) => (\n    <Checkbox\n        checked={data ?? false}\n        onCheckedChange={checked => handleChange(path, checked)}\n        disabled={!enabled}\n    />\n);\n\nexport const booleanCellTester = rankWith(1, isBooleanControl);\nexport default withJsonFormsCellProps(BooleanCell);",
-      "type": "registry:component"
+      "type": "registry:component",
+      "target": "components/forms/renderers/cells/boolean-cell.tsx"
     }
   ],
   "type": "registry:component"

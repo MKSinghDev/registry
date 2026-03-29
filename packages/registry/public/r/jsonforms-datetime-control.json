@@ -13,7 +13,8 @@
     {
       "path": "registry/forms/renderers/datetime-control.tsx",
       "content": "import { ControlProps, isDateTimeControl, rankWith } from '@jsonforms/core';\nimport { withJsonFormsControlProps } from '@jsonforms/react';\n\nimport { Input } from '~/components/ui/input';\n\nconst DateTimeControlRenderer = (props: ControlProps) => {\n    const { label, data, handleChange, path, visible, enabled } = props;\n\n    if (!visible) return null;\n\n    return (\n        <div className=\"flex flex-col gap-1 py-2\">\n            {label && <label className=\"text-xs font-medium text-foreground\">{label}</label>}\n            <Input\n                type=\"datetime-local\"\n                value={data ?? ''}\n                onChange={e => handleChange(path, e.target.value)}\n                disabled={!enabled}\n            />\n        </div>\n    );\n};\n\nexport const dateTimeControlTester = rankWith(11, isDateTimeControl);\nexport default withJsonFormsControlProps(DateTimeControlRenderer);",
-      "type": "registry:component"
+      "type": "registry:component",
+      "target": "components/forms/renderers/datetime-control.tsx"
     }
   ],
   "type": "registry:component"

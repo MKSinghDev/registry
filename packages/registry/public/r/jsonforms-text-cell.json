@@ -13,7 +13,8 @@
     {
       "path": "registry/forms/renderers/cells/text-cell.tsx",
       "content": "import { CellProps, isStringControl, rankWith } from '@jsonforms/core';\nimport { withJsonFormsCellProps } from '@jsonforms/react';\n\nimport { Input } from '~/components/ui/input';\n\nconst TextCell = ({ data, handleChange, path, enabled }: CellProps) => (\n    <Input\n        value={data ?? ''}\n        onChange={e => handleChange(path, e.target.value)}\n        disabled={!enabled}\n        className=\"h-8 text-xs\"\n    />\n);\n\nexport const textCellTester = rankWith(1, isStringControl);\nexport default withJsonFormsCellProps(TextCell);",
-      "type": "registry:component"
+      "type": "registry:component",
+      "target": "components/forms/renderers/cells/text-cell.tsx"
     }
   ],
   "type": "registry:component"
