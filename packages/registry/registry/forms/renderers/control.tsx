@@ -14,7 +14,7 @@ const ControlRenderer = (props: ControlProps) => {
         <div className="flex flex-col gap-1 py-2">
             {label && <Label className="text-xs font-medium text-foreground">{label}</Label>}
             <Input value={data ?? ''} onChange={e => handleChange(path, e.target.value)} disabled={!enabled} />
-            {config.showErrors && <Typography variant="error">{errors}</Typography>}
+            {config.showErrors && <Typography variant="error">{errors.split("\n")[0]}</Typography>}
         </div>
     );
 };

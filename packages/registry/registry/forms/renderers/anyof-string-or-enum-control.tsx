@@ -37,7 +37,7 @@ const AnyOfStringOrEnumControlRenderer = (props: ControlProps) => {
                     <option key={opt} value={opt} />
                 ))}
             </datalist>
-            {config.showErrors && <Typography variant="error">{errors}</Typography>}
+            {config.showErrors && <Typography variant="error">{errors.split("\n")[0]}</Typography>}
         </div>
     );
 };

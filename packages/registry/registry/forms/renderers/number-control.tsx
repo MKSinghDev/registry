@@ -19,7 +19,7 @@ const NumberControlRenderer = (props: ControlProps) => {
                 onChange={e => handleChange(path, e.target.valueAsNumber)}
                 disabled={!enabled}
             />
-            {config.showErrors && <Typography variant="error">{errors}</Typography>}
+            {config.showErrors && <Typography variant="error">{errors.split("\n")[0]}</Typography>}
         </div>
     );
 };

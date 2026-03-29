@@ -25,7 +25,7 @@ const BooleanControlRenderer = (props: ControlProps) => {
                     </Label>
                 )}
             </div>
-            {config.showErrors && <Typography variant="error">{errors}</Typography>}
+            {config.showErrors && <Typography variant="error">{errors.split("\n")[0]}</Typography>}
         </div>
     );
 };

@@ -19,7 +19,7 @@ const DateTimeControlRenderer = (props: ControlProps) => {
                 onChange={e => handleChange(path, e.target.value)}
                 disabled={!enabled}
             />
-            {config.showErrors && <Typography variant="error">{errors}</Typography>}
+            {config.showErrors && <Typography variant="error">{errors.split("\n")[0]}</Typography>}
         </div>
     );
 };

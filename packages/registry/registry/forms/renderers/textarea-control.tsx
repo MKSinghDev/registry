@@ -19,7 +19,7 @@ const TextareaControlRenderer = (props: ControlProps) => {
                 disabled={!enabled}
                 rows={4}
             />
-            {config.showErrors && <Typography variant="error">{errors}</Typography>}
+            {config.showErrors && <Typography variant="error">{errors.split("\n")[0]}</Typography>}
         </div>
     );
 };
