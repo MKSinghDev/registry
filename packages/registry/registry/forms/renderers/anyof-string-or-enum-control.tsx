@@ -1,9 +1,12 @@
+import { useState } from 'react';
+
 import { ControlProps, JsonSchema, rankWith, UISchemaElement } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
 
 import Typography from '~/components/ui/typography';
 import { Input } from '~/components/ui/input';
 import { Label } from '~/components/ui/label';
+import { shouldShowError } from '~/components/forms/utils';
 
 const hasEnumAndText = (schema: JsonSchema): boolean => {
     if (!schema.anyOf) return false;
@@ -14,6 +17,7 @@ const hasEnumAndText = (schema: JsonSchema): boolean => {
 
 const AnyOfStringOrEnumControlRenderer = (props: ControlProps) => {
     const { label, data, handleChange, path, visible, enabled, schema, id, errors, config } = props;
+    const [touched, setTouched] = useState(false);
 
     if (!visible) return null;
 
@@ -30,6 +34,7 @@ const AnyOfStringOrEnumControlRenderer = (props: ControlProps) => {
                 list={listId}
                 value={data ?? ''}
                 onChange={e => handleChange(path, e.target.value)}
+                onBlur={() => setTouched(true)}
                 disabled={!enabled}
             />
             <datalist id={listId}>
@@ -37,7 +42,7 @@ const AnyOfStringOrEnumControlRenderer = (props: ControlProps) => {
                     <option key={opt} value={opt} />
                 ))}
             </datalist>
-            {config.showErrors && <Typography variant="error">{errors.split("\n")[0]}</Typography>}
+            {shouldShowError(config, touched) && errors && <Typography variant="error">{errors.split("\n")[0]}</Typography>}
         </div>
     );
 };

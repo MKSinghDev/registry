@@ -1,12 +1,16 @@
+import { useState } from 'react';
+
 import { and, ControlProps, isBooleanControl, optionIs, rankWith } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
 
 import Typography from '~/components/ui/typography';
 import { Label } from '~/components/ui/label';
 import { Switch } from '~/components/ui/switch';
+import { shouldShowError } from '~/components/forms/utils';
 
 const BooleanToggleControlRenderer = (props: ControlProps) => {
     const { label, data, handleChange, path, visible, enabled, id, errors, config } = props;
+    const [touched, setTouched] = useState(false);
 
     if (!visible) return null;
 
@@ -17,6 +21,7 @@ const BooleanToggleControlRenderer = (props: ControlProps) => {
                     id={id}
                     checked={data ?? false}
                     onCheckedChange={checked => handleChange(path, checked)}
+                    onBlur={() => setTouched(true)}
                     disabled={!enabled}
                 />
                 {label && (
@@ -25,7 +30,7 @@ const BooleanToggleControlRenderer = (props: ControlProps) => {
                     </Label>
                 )}
             </div>
-            {config.showErrors && <Typography variant="error">{errors.split("\n")[0]}</Typography>}
+            {shouldShowError(config, touched) && errors && <Typography variant="error">{errors.split("\n")[0]}</Typography>}
         </div>
     );
 };

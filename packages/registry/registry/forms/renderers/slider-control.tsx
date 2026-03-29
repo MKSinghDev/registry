@@ -1,12 +1,16 @@
+import { useState } from 'react';
+
 import { ControlProps, isRangeControl, rankWith } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
 
 import Typography from '~/components/ui/typography';
 import { Label } from '~/components/ui/label';
 import { Slider } from '~/components/ui/slider';
+import { shouldShowError } from '~/components/forms/utils';
 
 const SliderControlRenderer = (props: ControlProps) => {
     const { label, data, handleChange, path, visible, enabled, schema, errors, config } = props;
+    const [touched, setTouched] = useState(false);
 
     if (!visible) return null;
 
@@ -16,7 +20,7 @@ const SliderControlRenderer = (props: ControlProps) => {
     const current = data ?? min;
 
     return (
-        <div className="flex flex-col gap-2 py-2">
+        <div className="flex flex-col gap-2 py-2" onBlur={() => setTouched(true)}>
             {label && (
                 <div className="flex items-center justify-between">
                     <Label className="text-xs font-medium text-foreground">{label}</Label>
@@ -31,7 +35,7 @@ const SliderControlRenderer = (props: ControlProps) => {
                 onValueChange={([value]) => handleChange(path, value)}
                 disabled={!enabled}
             />
-            {config.showErrors && <Typography variant="error">{errors.split("\n")[0]}</Typography>}
+            {shouldShowError(config, touched) && errors && <Typography variant="error">{errors.split("\n")[0]}</Typography>}
         </div>
     );
 };

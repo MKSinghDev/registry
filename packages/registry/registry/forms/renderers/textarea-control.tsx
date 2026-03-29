@@ -1,12 +1,16 @@
+import { useState } from 'react';
+
 import { and, ControlProps, isStringControl, optionIs, rankWith } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
 
 import Typography from '~/components/ui/typography';
 import { Label } from '~/components/ui/label';
 import { Textarea } from '~/components/ui/textarea';
+import { shouldShowError } from '~/components/forms/utils';
 
 const TextareaControlRenderer = (props: ControlProps) => {
     const { label, data, handleChange, path, visible, enabled, errors, config } = props;
+    const [touched, setTouched] = useState(false);
 
     if (!visible) return null;
 
@@ -16,10 +20,11 @@ const TextareaControlRenderer = (props: ControlProps) => {
             <Textarea
                 value={data ?? ''}
                 onChange={e => handleChange(path, e.target.value)}
+                onBlur={() => setTouched(true)}
                 disabled={!enabled}
                 rows={4}
             />
-            {config.showErrors && <Typography variant="error">{errors.split("\n")[0]}</Typography>}
+            {shouldShowError(config, touched) && errors && <Typography variant="error">{errors.split("\n")[0]}</Typography>}
         </div>
     );
 };

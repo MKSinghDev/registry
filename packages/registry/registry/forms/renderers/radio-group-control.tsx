@@ -1,18 +1,22 @@
+import { useState } from 'react';
+
 import { and, ControlProps, isEnumControl, optionIs, rankWith } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
 
 import Typography from '~/components/ui/typography';
 import { Label } from '~/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '~/components/ui/radio-group';
+import { shouldShowError } from '~/components/forms/utils';
 
 const RadioGroupControlRenderer = (props: ControlProps) => {
     const { label, data, handleChange, path, visible, enabled, schema, errors, config } = props;
+    const [touched, setTouched] = useState(false);
     const options = (schema.enum ?? []) as string[];
 
     if (!visible) return null;
 
     return (
-        <div className="flex flex-col gap-2 py-2">
+        <div className="flex flex-col gap-2 py-2" onBlur={() => setTouched(true)}>
             {label && <Label className="text-xs font-medium text-foreground">{label}</Label>}
             <RadioGroup
                 value={data ?? ''}
@@ -28,7 +32,7 @@ const RadioGroupControlRenderer = (props: ControlProps) => {
                     </div>
                 ))}
             </RadioGroup>
-            {config.showErrors && <Typography variant="error">{errors.split("\n")[0]}</Typography>}
+            {shouldShowError(config, touched) && errors && <Typography variant="error">{errors.split("\n")[0]}</Typography>}
         </div>
     );
 };

@@ -1,9 +1,12 @@
+import { useState } from 'react';
+
 import { and, isOneOfEnumControl, optionIs, rankWith } from '@jsonforms/core';
 import { withJsonFormsOneOfEnumProps } from '@jsonforms/react';
 
 import Typography from '~/components/ui/typography';
 import { Label } from '~/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '~/components/ui/radio-group';
+import { shouldShowError, ValidationMode } from '~/components/forms/utils';
 
 interface OneOfRadioGroupProps {
     label?: string;
@@ -14,16 +17,17 @@ interface OneOfRadioGroupProps {
     enabled: boolean;
     options?: { value: any; label: string }[];
     errors?: string;
-    config?: { showErrors?: boolean };
+    config?: { validationMode?: ValidationMode };
 }
 
 const OneOfRadioGroupControlRenderer = (props: OneOfRadioGroupProps) => {
     const { label, data, handleChange, path, visible, enabled, options = [], errors, config } = props;
+    const [touched, setTouched] = useState(false);
 
     if (!visible) return null;
 
     return (
-        <div className="flex flex-col gap-2 py-2">
+        <div className="flex flex-col gap-2 py-2" onBlur={() => setTouched(true)}>
             {label && <Label className="text-xs font-medium text-foreground">{label}</Label>}
             <RadioGroup
                 value={data !== undefined ? String(data) : ''}
@@ -39,7 +43,7 @@ const OneOfRadioGroupControlRenderer = (props: OneOfRadioGroupProps) => {
                     </div>
                 ))}
             </RadioGroup>
-            {config?.showErrors && <Typography variant="error">{errors.split("\n")[0]}</Typography>}
+            {shouldShowError(config, touched) && errors && <Typography variant="error">{errors.split("\n")[0]}</Typography>}
         </div>
     );
 };
