@@ -9,7 +9,7 @@
   "files": [
     {
       "path": "registry/forms/renderers/label.tsx",
-      "content": "import { LabelElement, rankWith, uiTypeIs } from '@jsonforms/core';\nimport { withJsonFormsRendererProps } from '@jsonforms/react';\n\nimport { typographyVariants } from '~/components/ui/typography';\n\ninterface LabelRendererProps {\n    uischema: LabelElement;\n    visible: boolean;\n}\n\nconst LabelRenderer = ({ uischema, visible }: LabelRendererProps) => {\n    if (!visible) return null;\n\n    return (\n        <p className={typographyVariants({ variant: 'large' })}>{uischema.text}</p>\n    );\n};\n\nexport const labelTester = rankWith(10, uiTypeIs('Label'));\nexport default withJsonFormsRendererProps(LabelRenderer as any);\n",
+      "content": "import { LabelElement, rankWith, uiTypeIs } from '@jsonforms/core';\nimport { withJsonFormsRendererProps } from '@jsonforms/react';\n\nimport { typographyVariants } from '~/components/ui/typography';\n\ninterface LabelRendererProps {\n    uischema: LabelElement;\n}\n\nconst LabelRenderer = ({ uischema }: LabelRendererProps) => (\n    <p className={typographyVariants({ variant: 'large' })}>{uischema.text}</p>\n);\n\nexport const labelTester = rankWith(10, uiTypeIs('Label'));\nexport default withJsonFormsRendererProps(LabelRenderer as any);\n",
       "type": "registry:component",
       "target": "components/forms/renderers/label.tsx"
     }
