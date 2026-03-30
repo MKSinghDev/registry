@@ -1,6 +1,8 @@
 import { LabelElement, rankWith, uiTypeIs } from '@jsonforms/core';
 import { withJsonFormsRendererProps } from '@jsonforms/react';
 
+import { typographyVariants } from '~/components/ui/typography';
+
 interface LabelRendererProps {
     uischema: LabelElement;
     visible: boolean;
@@ -10,7 +12,7 @@ const LabelRenderer = ({ uischema, visible }: LabelRendererProps) => {
     if (!visible) return null;
 
     return (
-        <p className="text-xs font-medium text-muted-foreground">{uischema.text}</p>
+        <p className={typographyVariants({ variant: 'large' })}>{uischema.text}</p>
     );
 };
 
