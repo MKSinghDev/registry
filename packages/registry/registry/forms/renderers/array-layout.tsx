@@ -111,7 +111,7 @@ const ArrayLayoutRenderer = (props: ArrayLayoutProps) => {
                                                 type="button"
                                                 variant="ghost"
                                                 size="sm"
-                                                onClick={() => removeItems(path, [index])()}
+                                                onClick={() => removeItems && removeItems(path, [index])()}
                                                 className="h-7 text-xs text-destructive hover:text-destructive"
                                             >
                                                 Remove
