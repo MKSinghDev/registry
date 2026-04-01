@@ -32,7 +32,7 @@ const SliderControlRenderer = (props: ControlProps) => {
                 max={max}
                 step={step}
                 value={[current]}
-                onValueChange={([value]) => handleChange(path, value)}
+                onValueChange={value => handleChange(path, Array.isArray(value) ? value[0] : value)}
                 disabled={!enabled}
             />
             {shouldShowError(config, touched) && errors && <Typography variant="error">{errors.split("\n")[0]}</Typography>}
