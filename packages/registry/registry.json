@@ -41,7 +41,7 @@
         "react"
       ],
       "registryDependencies": [
-        "use-isomorphic-layout-effect"
+        "https://mksingh.dev/r/use-isomorphic-layout-effect.json"
       ],
       "files": [
         {
